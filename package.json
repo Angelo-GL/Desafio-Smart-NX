@@ -1,0 +1,32 @@
+{
+  "name": "desafio-smart-nx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Angelo-GL/Desafio-Smart-NX.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Angelo-GL/Desafio-Smart-NX/issues"
+  },
+  "homepage": "https://github.com/Angelo-GL/Desafio-Smart-NX#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "consign": "^0.1.6",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1",
+    "sequelize": "^6.28.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
