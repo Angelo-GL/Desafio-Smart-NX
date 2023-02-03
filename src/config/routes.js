@@ -1,9 +1,9 @@
 const {Router} =require('express')
+const controllerPost = require('../controller/posts_controller')
 
 const route = Router()
 
-route.get('/', (req, res) => {
-    res.send('ola mundo')
-})
+route.post('/posts', controllerPost.saveOrUpdate)
+route.put('/posts/:id', controllerPost.saveOrUpdate)
 
 module.exports = route
