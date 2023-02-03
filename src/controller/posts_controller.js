@@ -1,6 +1,7 @@
 const { Op } = require('sequelize');
 const Posts = require('../models/Posts')
-const {existsOrError, notExistsOrError, equalsOrError} = require('../validations/validations')
+const {existsOrError, notExistsOrError, equalsOrError} = require('../validations/validations');
+const { post } = require('../config/routes');
 
 const saveOrUpdate = async (req, res) =>{
     const post = {...req.body}
@@ -41,4 +42,38 @@ const saveOrUpdate = async (req, res) =>{
     }
 }
 
-module.exports = {saveOrUpdate}
+
+const findAll = async (req, res) => {
+    try {
+
+        const listPosts = await Posts.findAll({
+            attributes: ['id', 'author', 'title', 'contents', 'image_url' ],
+        })
+        if(listPosts.length === 0){
+            return res.status(401).json({message: 'Nenhum post Cadastrado!'})
+        }
+        
+       res.status(200).json(listPosts)
+    } catch (msg) {
+        res.status(400).json(msg)
+    }
+}
+
+const deletPosts = async (req, res) => {
+    const {id} = req.params
+
+    try {
+        const posts = await Posts.findOne({where: { id }})
+        if(!posts){
+           return res.status(401).json({message: "Post não encontrado"})
+        }
+
+        const deletesPost = await Posts.destroy({where: {id}})
+        res.status(200).json({message: "Post exluido!"})
+        
+    } catch (err) {
+        res.status(400).send(err)
+    }
+}
+
+module.exports = {saveOrUpdate, findAll, deletPosts}
