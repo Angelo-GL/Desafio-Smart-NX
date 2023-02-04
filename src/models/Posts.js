@@ -14,7 +14,7 @@ class Posts extends Model{
             sequelize
         })
         Posts.associate = (models) => {
-            Posts.hasMany(models.contents, {foreignKey: "posts_Id"})
+            Posts.hasMany(models.Comments, {foreignKey: "postid"})
             
         }
     }

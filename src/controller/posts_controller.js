@@ -1,4 +1,5 @@
 const Posts = require('../models/Posts')
+const Comments = require('../models/Comments')
 const {existsOrError} = require('../validations/validations');
 
 

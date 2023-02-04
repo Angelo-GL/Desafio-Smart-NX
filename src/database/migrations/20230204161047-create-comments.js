@@ -18,14 +18,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      posts_Id:{
+      postid:{
         type: Sequelize.INTEGER,
-        foreignKey: true,
+        references:{
+          model:"Posts",
+          key: "id"
+        },
         allowNull: false,
-        references: {
-          model: "Posts",
-          key: 'id'
-        }
       },
       created_at:{
         type: Sequelize.DATE,

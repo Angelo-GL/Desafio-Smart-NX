@@ -5,11 +5,14 @@ class Comments extends Model{
         super.init({
             author: DataTypes.STRING,
             contents: DataTypes.STRING,
+            postid: DataTypes.INTEGER,
+            created_at: DataTypes.DATE,
+            updated_at: DataTypes.DATE
         }, {
             sequelize
         })
         Comments.associate = (model) => {
-            Comments.belongsTo(model.Posts, {foreignKey: 'posts_Id'})
+            Comments.belongsTo(model.Posts, {foreignKey: 'postid'})
         }
     }
 }
