@@ -37,7 +37,6 @@ const saveOrUpdate = async (req, res) =>{
             const resutlCriete = await Comment.create(comments)
             res.status(204).send()
         }
-        
 
     } catch (error) {
         console.log(error);
@@ -46,4 +45,55 @@ const saveOrUpdate = async (req, res) =>{
     }
 }
 
-module.exports = {saveOrUpdate}
+const findAll = async (req, res) => {
+    const {page = 0, size =5} = req.query
+
+    let options = {
+        limit: +size,
+        offset: (+page) * (+size)
+    }
+    try {
+    
+        const {count, rows} = await Comment.findAndCountAll(options)
+        
+        res.status(200).json({
+        status: 'sucess',
+        total: count,
+        posts: rows
+       })
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
+const deletComments = async (req, res) => {
+    const {id} = req.params
+
+    try {
+        const posts = await Comment.findOne({where: { id }})
+        if(!posts){
+           return res.status(401).json({message: "COmentário não encontrado"})
+        }
+
+        const deletesPost = await Comment.destroy({where: {id}})
+        res.status(200).json({message: "Comentário exluido!"})
+        
+    } catch (err) {
+        res.status(400).send(err)
+    }
+}
+
+const findById = async (req, res) => {
+    try {
+        const _post = await Comment.findOne({where: {id: req.params.id}})
+        if(!_post){
+            return res.status(401).json({message: `Nenhum COmentário encontrado a partir do id ${req.params.id}`})
+        }
+
+        res.status(200).json(_post)
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
+module.exports = {saveOrUpdate, findAll, deletComments, findById}

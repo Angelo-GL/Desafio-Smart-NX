@@ -14,6 +14,8 @@ route.get('/posts/:id', controllerPost.findById)
 // ===== Rotas de Comments ======
 route.post('/comments', controllerComment.saveOrUpdate)
 route.put('/comments/:id', controllerComment.saveOrUpdate)
-
+route.get('/comments', controllerComment.findAll)
+route.delete('/comments/:id', controllerComment.deletComments)
+route.get('/comments/:id', controllerComment.findById)
 
 module.exports = route
