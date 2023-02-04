@@ -1,7 +1,6 @@
-const { Op } = require('sequelize');
 const Posts = require('../models/Posts')
-const {existsOrError, notExistsOrError, equalsOrError} = require('../validations/validations');
-const { post } = require('../config/routes');
+const {existsOrError} = require('../validations/validations');
+
 
 const saveOrUpdate = async (req, res) =>{
     const post = {...req.body}
@@ -44,18 +43,36 @@ const saveOrUpdate = async (req, res) =>{
 
 
 const findAll = async (req, res) => {
-    try {
+    const {page = 0, size =5} = req.query
 
-        const listPosts = await Posts.findAll({
-            attributes: ['id', 'author', 'title', 'contents', 'image_url' ],
-        })
-        if(listPosts.length === 0){
-            return res.status(401).json({message: 'Nenhum post Cadastrado!'})
-        }
+    let options = {
+        limit: +size,
+        offset: (+page) * (+size)
+    }
+    try {
+    
+        const {count, rows} = await Posts.findAndCountAll(options)
         
-       res.status(200).json(listPosts)
-    } catch (msg) {
-        res.status(400).json(msg)
+        res.status(200).json({
+        status: 'sucess',
+        total: count,
+        posts: rows
+       })
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
+const findById = async (req, res) => {
+    try {
+        const _post = await Posts.findOne({where: {id: req.params.id}})
+        if(!_post){
+            return res.status(401).json({message: `Nenum post encontrado a partir do id ${req.params.id}`})
+        }
+
+        res.status(200).json(_post)
+    } catch (error) {
+        res.status(400).send(error)
     }
 }
 
@@ -76,4 +93,4 @@ const deletPosts = async (req, res) => {
     }
 }
 
-module.exports = {saveOrUpdate, findAll, deletPosts}
+module.exports = {saveOrUpdate, findAll, findById, deletPosts}
