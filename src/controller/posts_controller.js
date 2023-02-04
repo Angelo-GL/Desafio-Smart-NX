@@ -29,15 +29,14 @@ const saveOrUpdate = async (req, res) => {
                 return res.status(401).json({ message: "Nenhum post encontrado!" })
             } else {
                 const postUpdate = await Posts.update(post, { where: { id: post.id } })
-                res.status(204).send()
+                res.status(200).json({ message: "Atualização concluida!" })
             }
         } else {
             await Posts.create(post)
-            res.status(204).send("")
+            res.status(200).json({ message: "Cadastro concluido!" })
         }
 
     } catch (error) {
-        console.log(error);
         res.status(500).send(error)
     }
 }
@@ -83,9 +82,9 @@ const deletPosts = async (req, res) => {
     try {
         const posts = await Posts.findOne({ where: { id } })
         if (!posts) {
-            return res.status(401).json({ message: "Post não encontrado" })
+            return res.status(401).json({ message: "Post não encontrado!" })
         }
-        console.log("XXXX");
+        
         const listComments = await Comments.findAll({
             attributes: ['id'],
             where: { postid: id }

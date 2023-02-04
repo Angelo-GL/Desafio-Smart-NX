@@ -31,7 +31,7 @@ const saveOrUpdate = async (req, res) =>{
                 return res.status(401).json({message: "Nenhum commentário encontrado!"})
             }else{
                 await Comment.update(comments, { where: { id: comments.id }})
-                res.status(204).send()
+                res.status(200).json({message: "Atualização concluida!"})
             }
         } else {
             const resutlCriete = await Comment.create(comments)
@@ -72,7 +72,7 @@ const deletComments = async (req, res) => {
     try {
         const posts = await Comment.findOne({where: { id }})
         if(!posts){
-           return res.status(401).json({message: "COmentário não encontrado"})
+           return res.status(401).json({message: "Comentário não encontrado"})
         }
 
         const deletesPost = await Comment.destroy({where: {id}})
