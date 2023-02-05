@@ -1,7 +1,7 @@
-const {Model, DataTypes} = require('sequelize')
+const { Model, DataTypes } = require('sequelize')
 
-class Comments extends Model{
-    static init(sequelize){
+class Comments extends Model {
+    static init(sequelize) {
         super.init({
             author: DataTypes.STRING,
             contents: DataTypes.STRING,
@@ -12,7 +12,7 @@ class Comments extends Model{
             sequelize
         })
         Comments.associate = (model) => {
-            Comments.belongsTo(model.Posts, {foreignKey: 'postid'})
+            Comments.belongsTo(model.Posts, { foreignKey: 'postid' })
         }
     }
 }

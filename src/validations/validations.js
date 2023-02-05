@@ -15,9 +15,8 @@ function notExistsOrError(value, msg) {
     throw msg
 }
 
-
 function equalsOrError(valueA, ValueB, msg) {
     if (valueA !== ValueB) throw msg
 }
 
-module.exports = {existsOrError, notExistsOrError, equalsOrError }
+module.exports = { existsOrError, notExistsOrError, equalsOrError }

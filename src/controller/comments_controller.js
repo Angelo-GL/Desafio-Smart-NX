@@ -3,7 +3,7 @@ const Posts = require('../models/Posts')
 const {existsOrError} = require('../validations/validations');
 
 const saveOrUpdate = async (req, res) =>{
-    const comments = {...req.body}
+    const comments = { ...req.body }
         
     if(req.params.id) comments.id = req.params.id
     
@@ -14,22 +14,20 @@ const saveOrUpdate = async (req, res) =>{
     } catch (msg) {
         return res.status(400).send(msg)
     }
-    try {
 
+    try {
         const postentFromDB = await Posts.findOne({ where: { id: comments.postid } })
 
-        if(!postentFromDB) return res.status(401).json({message: `Id do Post não encontrado!`})
+        if(!postentFromDB) return res.status(401).json({ message: `Id do Post não encontrado!` })
         
-        if(comments.id){
-            
+        if(comments.id) {    
             const commmentFromDB = await Comment.findOne({
                 where: { id: comments.id  }
             })
-               
             
             if(!commmentFromDB){
                 return res.status(401).json({message: "Nenhum commentário encontrado!"})
-            }else{
+            } else {
                 await Comment.update(comments, { where: { id: comments.id }})
                 res.status(200).json({message: "Atualização concluida!"})
             }
@@ -39,21 +37,18 @@ const saveOrUpdate = async (req, res) =>{
         }
 
     } catch (error) {
-        console.log(error);
-        console.log(error);
         res.status(500).send(error)
     }
 }
 
 const findAll = async (req, res) => {
-    const {page = 0, size =5} = req.query
+    const { page = 0, size =5 } = req.query
 
     let options = {
         limit: +size,
         offset: (+page) * (+size)
     }
     try {
-    
         const {count, rows} = await Comment.findAndCountAll(options)
         
         res.status(200).json({
@@ -70,13 +65,13 @@ const deletComments = async (req, res) => {
     const {id} = req.params
 
     try {
-        const posts = await Comment.findOne({where: { id }})
-        if(!posts){
-           return res.status(401).json({message: "Comentário não encontrado"})
+        const posts = await Comment.findOne({ where: { id } })
+        if(!posts) {
+           return res.status(401).json({ message: "Comentário não encontrado" })
         }
 
-        const deletesPost = await Comment.destroy({where: {id}})
-        res.status(200).json({message: "Comentário exluido!"})
+        const deletesPost = await Comment.destroy({ where: { id } })
+        res.status(200).json({ message: "Comentário exluido!" })
         
     } catch (err) {
         res.status(400).send(err)
@@ -85,9 +80,9 @@ const deletComments = async (req, res) => {
 
 const findById = async (req, res) => {
     try {
-        const _post = await Comment.findOne({where: {id: req.params.id}})
-        if(!_post){
-            return res.status(401).json({message: `Nenhum COmentário encontrado a partir do id ${req.params.id}`})
+        const _post = await Comment.findOne({ where: { id: req.params.id } })
+        if(!_post) {
+            return res.status(401).json( { message: `Nenhum COmentário encontrado a partir do id ${req.params.id}` } )
         }
 
         res.status(200).json(_post)
