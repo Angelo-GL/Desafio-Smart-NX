@@ -2,11 +2,11 @@ FROM node:lts
 
 WORKDIR /usr/src/desafio
 
-COPY package.json /usr/src/desafio
-RUN npm install --quiet
+COPY package.json ./
+RUN npm install 
 
-COPY . /usr/src/desafio
+COPY . .
 
 EXPOSE 4000
 
-CMD [ "node", "src/server.js" ]
+CMD [ "node", "server.js" ]
